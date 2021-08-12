@@ -188,9 +188,7 @@ class HBNBCommand(cmd.Cmd):
                 fin_attr = str("{} {}".format(key, value))
             HBNBCommand.do_update(self, str(c_name + ' ' + new_instance.id + ' ' + fin_attr))
 
-        storage.save()
         print(new_instance.id)
-        self.do_all(c_name)
         storage.save()
 
     def help_create(self):

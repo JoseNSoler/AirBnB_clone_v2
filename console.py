@@ -120,7 +120,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        c_name = fin_attr = ''
+        c_name = fin_attr =''
         posCom = switch = b_attr = 0
         kwargs= {}
         fullArg = tmpAttr = []
@@ -156,7 +156,9 @@ class HBNBCommand(cmd.Cmd):
                             elif (arg[0] == attr_var) and (b_attr == 0):
 
                                 # Format string values replace '_' ' '
+      
                                 arg[1] = arg[1][1:-1]
+    
                                 posCom = arg[1].find('"')
                                 # Check for \" 
                                 if posCom != -1:
@@ -376,6 +378,9 @@ class HBNBCommand(cmd.Cmd):
                 if att_name in HBNBCommand.types:
                     att_val = HBNBCommand.types[att_name](att_val)
                 # update dictionary with name, value pair
+
+                att_val = att_val.replace('_', ' ')
+
                 new_dict.__dict__.update({str(att_name): att_val})
 
         new_dict.save()  # save updates to file

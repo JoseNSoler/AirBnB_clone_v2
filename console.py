@@ -381,7 +381,8 @@ class HBNBCommand(cmd.Cmd):
                 if att_name in HBNBCommand.types:
                     att_val = HBNBCommand.types[att_name](att_val)
                 # update dictionary with name, value pair
-                att_val = att_val.replace('_', ' ')
+                if (type(att_val) == str):
+                    att_val = att_val.replace('_', ' ')
                 new_dict.__dict__.update({str(att_name): att_val})
 
         new_dict.save()  # save updates to file

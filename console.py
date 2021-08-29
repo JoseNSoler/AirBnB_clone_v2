@@ -121,7 +121,7 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, args):
         """ Create an object of any class"""
         c_name = fin_attr =''
-        posCom = switch = b_attr = 0
+        posCom = posSpac = switch = b_attr = 0
         kwargs= {}
         fullArg = tmpAttr = []
         
@@ -131,54 +131,57 @@ class HBNBCommand(cmd.Cmd):
 
         fullArg = args.split(' ', 1)
         c_name = fullArg[0]
-        fullArg = fullArg[1].split(' ')
 
+        try:
+            fullArg = fullArg[1].split(' ')
+            """ Iterate over attr of permited classes"""
+            for c_var in HBNBCommand.classes:
+                # Exclude for editing BASEMODEL 
+                if c_var is not "BaseModel" and c_name == c_var:
 
-        """ Iterate over attr of permited classes"""
-        for c_var in HBNBCommand.classes:
-            # Exclude for editing BASEMODEL 
-            if c_var is not "BaseModel" and c_name == c_var:
+                    for attr_var in HBNBCommand.classes[c_var].__dict__:
+                        if (attr_var[0] != ' ') and (attr_var[0] != '_'):
+                            #Compare given attr with def attr
+                            for arg in fullArg:
+                                arg = arg.split('=')
+                                if (arg[0] in HBNBCommand.types) and (b_attr == 0):
 
-                for attr_var in HBNBCommand.classes[c_var].__dict__:
-                    if (attr_var[0] != ' ') and (attr_var[0] != '_'):
-                        #Compare given attr with def attr
-                        for arg in fullArg:
-                            arg = arg.split('=')
-                            if (arg[0] in HBNBCommand.types) and (b_attr == 0):
+                                    #Conversion attr_valu to espected type if int - float _ else skip value
+                                    try:
+                                        arg[1] = HBNBCommand.types[arg[0]](arg[1])
+                                    except:
+                                        b_attr = 1
+                                        break
+                                    if arg[0] not in kwargs : kwargs[arg[0]] = arg[1]
+                                elif (arg[0] == attr_var) and (b_attr == 0):
 
-                                #Conversion attr_valu to espected type if int - float _ else skip value
-                                try:
-                                    arg[1] = HBNBCommand.types[arg[0]](arg[1])
-                                except:
-                                    b_attr = 1
+                                    # Format string values replace '_' ' '
+
+                                    arg[1] = arg[1][1:-1]
+
+                                    posCom = arg[1].find('"')
+                                    # Check for \" 
+                                    if posCom != -1:
+                                        # Iterate until fin is -1
+                                        while switch == 0:
+                                            if arg[1][posCom - 1] is chr(92):
+                                                posCom = arg[1].find('"', posCom + 1)
+                                            elif posCom == -1:
+                                                switch = 1
+                                            else:
+                                                b_attr = 1
+                                                break
+                                    if b_attr == 1 : continue
+                                    arg[1] = arg[1].replace(chr(92), '')
+
+                                    if arg[0] not in kwargs : kwargs[arg[0]] = arg[1]
                                     break
-                                if arg[0] not in kwargs : kwargs[arg[0]] = arg[1]
-                            elif (arg[0] == attr_var) and (b_attr == 0):
-
-                                # Format string values replace '_' ' '
-      
-                                arg[1] = arg[1][1:-1]
-    
-                                posCom = arg[1].find('"')
-                                # Check for \" 
-                                if posCom != -1:
-                                    # Iterate until fin is -1
-                                    while switch == 0:
-                                        if arg[1][posCom - 1] is chr(92):
-                                            posCom = arg[1].find('"', posCom + 1)
-                                        elif posCom == -1:
-                                            switch = 1
-                                        else:
-                                            b_attr = 1
-                                            break
-                                if b_attr == 1 : continue
-                                arg[1] = arg[1].replace(chr(92), '')
-
-                                if arg[0] not in kwargs : kwargs[arg[0]] = arg[1]
-                                break
-                            else:
-                               continue
-
+                                else:
+                                   continue
+        except:
+            if c_name not in HBNBCommand.classes:
+                print("** class doesn't exist **")
+                return
         if c_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
@@ -378,9 +381,7 @@ class HBNBCommand(cmd.Cmd):
                 if att_name in HBNBCommand.types:
                     att_val = HBNBCommand.types[att_name](att_val)
                 # update dictionary with name, value pair
-
                 att_val = att_val.replace('_', ' ')
-
                 new_dict.__dict__.update({str(att_name): att_val})
 
         new_dict.save()  # save updates to file

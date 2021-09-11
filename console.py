@@ -191,7 +191,7 @@ class HBNBCommand(cmd.Cmd):
             except:
                 fin_attr = str("{} {}".format(key, value))
             HBNBCommand.do_update(self, str(c_name + ' ' + new_instance.id + ' ' + fin_attr))
-
+        
         print(new_instance.id)
         storage.save()
 

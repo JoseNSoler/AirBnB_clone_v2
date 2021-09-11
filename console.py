@@ -3,7 +3,6 @@
 import cmd
 import sys
 from models.base_model import BaseModel
-from models.engine.file_storage import FileStorage
 from models.__init__ import storage
 from models.user import User
 from models.place import Place
@@ -24,12 +23,6 @@ class HBNBCommand(cmd.Cmd):
                'State': State, 'City': City, 'Amenity': Amenity,
                'Review': Review
               }
-    valid_classes = [
-               'User', 'Place',
-               'State', 'City', 'Amenity',
-               'Review'
-            ]
-
     dot_cmds = ['all', 'count', 'show', 'destroy', 'update']
     types = {
              'number_rooms': int, 'number_bathrooms': int,
@@ -45,11 +38,10 @@ class HBNBCommand(cmd.Cmd):
     def preloop(self):
         """Prints if isatty is false"""
         if not sys.__stdin__.isatty():
-            print('(hbnb) ', end='')
+            print('(hbnb)')
 
     def precmd(self, line):
         """Reformat command line for advanced command syntax.
-
         Usage: <class name>.<command>([<id> [<*args> or <**kwargs>]])
         (Brackets denote optional fields in usage example.)
         """
@@ -200,9 +192,8 @@ class HBNBCommand(cmd.Cmd):
                 fin_attr = str("{} {}".format(key, value))
             HBNBCommand.do_update(self, str(c_name + ' ' + new_instance.id + ' ' + fin_attr))
 
-        new_instance.save()
         print(new_instance.id)
-        
+        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -389,7 +380,9 @@ class HBNBCommand(cmd.Cmd):
                 if att_name in HBNBCommand.types:
                     att_val = HBNBCommand.types[att_name](att_val)
                 # update dictionary with name, value pair
-                new_dict.__dict__.update({att_name: att_val})
+                if (type(att_val) == str):
+                    att_val = att_val.replace('_', ' ')
+                new_dict.__dict__.update({str(att_name): att_val})
 
         new_dict.save()  # save updates to file
 

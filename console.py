@@ -194,7 +194,7 @@ class HBNBCommand(cmd.Cmd):
                 fin_attr = str("{} {}".format(key, value))
             setattr(new_instance, key, value)
         new_instance.save()
-        print(new_instance)
+        
         print(new_instance.id)
 
     def help_create(self):

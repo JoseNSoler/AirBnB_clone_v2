@@ -47,6 +47,8 @@ class DBStorage:
             queryArr += self.__session.query(City).all()
             queryArr += self.__session.query(User).all()
             queryArr += self.__session.query(Place).all()
+            queryArr += self.__session.query(Amenity).all()
+            queryArr += self.__session.query(Review).all()
 
         for objects in queryArr:
             key = type(objects).__name__ + "." + str(objects.id)
@@ -55,17 +57,17 @@ class DBStorage:
 
     def new(self, obj):
         """ Adds <obj> to current session """
-        self.__session.add(obj)
-    
+        return self.__session.add(obj)
+
     def save(self):
         """ Save/Commit current changes maded on sessions """
-        self.__session.commit()
+        return self.__session.commit()
     
     def delete(self, obj=None):
         """ Deletes obj on session """
         if obj:
             self.__session.delete(obj)
-    
+
     def reload(self):
         """ Recreates a new metadata from DB """
         Base.metadata.create_all(self.__engine)

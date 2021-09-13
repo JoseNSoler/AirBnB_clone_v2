@@ -189,10 +189,14 @@ class HBNBCommand(cmd.Cmd):
         
         for key, value in kwargs.items():
             try:
-                fin_attr = str(str(key) + ' ' + str(value))
-            except:
-                fin_attr = str("{} {}".format(key, value))
+                value = int(value)
+            except ValueError:
+                try:
+                    value = float(value)
+                except ValueError:
+                    value = value.replace("_", " ")
             setattr(new_instance, key, value)
+        print(new_instance)
         new_instance.save()
         
         print(new_instance.id)

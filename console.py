@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Console Module """
 import cmd
+from os import getenv
 import sys
 from models.base_model import BaseModel
 from models.__init__ import storage
@@ -185,15 +186,16 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         new_instance = HBNBCommand.classes[c_name]()
+        
         for key, value in kwargs.items():
             try:
                 fin_attr = str(str(key) + ' ' + str(value))
             except:
                 fin_attr = str("{} {}".format(key, value))
-            HBNBCommand.do_update(self, str(c_name + ' ' + new_instance.id + ' ' + fin_attr))
-        
+            setattr(new_instance, key, value)
+        new_instance.save()
+        print(new_instance)
         print(new_instance.id)
-        storage.save()
 
     def help_create(self):
         """ Help information for the create method """
@@ -275,12 +277,22 @@ class HBNBCommand(cmd.Cmd):
             if args not in HBNBCommand.classes:
                 print("** class doesn't exist **")
                 return
-            for k, v in storage._FileStorage__objects.items():
-                if k.split('.')[0] == args:
-                    print_list.append(v.__str__())
+            if getenv('HBNB_TYPE_STORAGE') == "db":
+                print(storage.all(State))
+                for k, v in storage.all().items():
+                    if k.split('.')[0] == args:
+                        print_list.append(v)
+            else:
+                for k, v in storage._FileStorage__objects.items():
+                    if k.split('.')[0] == args:
+                        print_list.append(v.__str__())
         else:
-            for k, v in storage._FileStorage__objects.items():
-                print_list.append(v.__str__())
+            if getenv('HBNB_TYPE_STORAGE') == "db":
+                for k, v in storage.all().items():
+                    print_list.append(v)
+            else:
+                for k, v in storage._FileStorage__objects.items():
+                    print_list.append(v.__str__())
 
         print("[{0}]".format(', '.join(map(str, print_list))))
 

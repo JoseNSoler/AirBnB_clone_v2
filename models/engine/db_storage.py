@@ -24,29 +24,33 @@ class DBStorage:
         mysqlHost = getenv('HBNB_MYSQL_HOST')
         mysqlDB = getenv('HBNB_MYSQL_DB')
 
-        eng = "mysql+mysqldb://{}:{}@{}:3306/{}".\
-            format(mysqlUser, mysqlPass, mysqlHost, mysqlDB)
-        self.__engine = create_engine(eng, pool_pre_ping=True)
+        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
+                                      .format(mysqlUser,
+                                              mysqlPass,
+                                              mysqlHost,
+                                              mysqlDB), pool_pre_ping=True)
 
         if getenv('HBNB_ENV') == "test":
             Base.metadata.drop_all(bind=self.__engine)
+        
+        self.__session = sessionmaker(bind=self.__engine)
     
     def all(self, cls=None):
         """ Returns all currect cls objects on db - cls=None returns all """
+        queryDict = {}
         if cls:
             queryArr = self.__session.query(cls).all()
+
         else:
             queryArr = []
-            classes = ['State', 'User', 'Place', 'City', 'Review', 'Amenity']
-            for _class in classes:
-                objs = self.__session.query(_class)
-                for obj in objs:
-                    queryArr.append(obj)
+            queryArr += self.__session.query(State).all()
+            queryArr += self.__session.query(City).all()
+            queryArr += self.__session.query(User).all()
+            queryArr += self.__session.query(Place).all()
 
-        for obj in queryArr:
-            key = type(obj).__name__ + "." + str(obj.id)
-            queryDict = dict(key, obj)
-        
+        for objects in queryArr:
+            key = type(objects).__name__ + "." + str(objects.id)
+            queryDict[key] = objects
         return queryDict
 
     def new(self, obj):

@@ -188,13 +188,12 @@ class HBNBCommand(cmd.Cmd):
         new_instance = HBNBCommand.classes[c_name]()
         
         for key, value in kwargs.items():
+            if type(value) is float:
+                value = float("{:.3f}".format(value))
             try:
-                value = int(value)
-            except ValueError:
-                try:
-                    value = float(value)
-                except ValueError:
-                    value = value.replace("_", " ")
+                value = value.replace("_", " ")
+            except AttributeError:
+                pass
             setattr(new_instance, key, value)
         print(new_instance)
         new_instance.save()

@@ -21,14 +21,6 @@ printf %s "<!DOCTYPE html>
     Holberton School
   </body>
 </html>
-ubuntu@89-web-01:~/$ curl localhost/hbnb_static/index.html
-<html>
-  <head>
-  </head>
-  <body>
-    Holberton School
-  </body>
-</html>
 " > /data/web_static/releases/test/index.html
 
 sudo ln -s /data/web_static/releases/test/ /data/web_static/current

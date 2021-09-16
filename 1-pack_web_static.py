@@ -20,8 +20,7 @@ def do_pack():
             str(now.minute).zfill(2),
             str(now.second).zfill(2)
             )
-        tgzPath = "versions/web_static_{}.tgz".format(strPathNow)
-        local("tar -czvf {} web_static".format(tgzPath))
-        return tgzPath
+        local("tar -czvf {} web_static".format(strPathNow))
+        return strPathNow
     except:
         return None

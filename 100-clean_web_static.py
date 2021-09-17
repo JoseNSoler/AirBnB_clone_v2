@@ -9,6 +9,7 @@ from pathlib import Path
 env.hosts = ["ubuntu@3.95.61.247", "ubuntu@104.196.45.214"]
 status = 0
 
+
 def do_pack():
     """ create current tgz version from folder web_static """
 
@@ -61,6 +62,7 @@ def do_deploy(archive_path):
             return False
     else:
         return False
+
 
 def deploy():
     """ full deployment with previous functions """

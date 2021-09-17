@@ -75,13 +75,14 @@ def deploy():
 
 def do_clean(number=0):
     """ clean old tgz versions """
-    if int(number) < 2:
+    number = int(number)
+    if number < 2:
         number = 1
-    if int(number) == int(2) or int(number) == 1:
-        print(number)
-        local("cd versions && rm `ls -t | awk 'NR>{}'`".format(
-            int(number)
-        ))
-        run("cd {} && rm -rf `ls -t | awk 'NR>{}'`".format(
-            "/data/web_static/releases", int(number)
-        ))
+    number += 1
+    number = str(number)
+    local("cd versions && rm `ls -t | awk 'NR>{}'`".format(
+        int(number)
+    ))
+    run("cd {} && rm -rf `ls -t | awk 'NR>{}'`".format(
+        "/data/web_static/releases", int(number)
+    ))

@@ -44,7 +44,16 @@ def isnumber(n):
 @app.route('/number_template/<int:n>')
 def display_html_if_num(n):
     # Return webpage if <user_req_int> is a int
-    return render_template('5-number.html', n=n)
+    return render_template('5-number.html', n=int(n))
+
+@app.route('/number_odd_or_even/<int:n>')
+def odd_or_even(n):
+    if (n % 2 == 0):
+        return render_template('6-number_odd_or_even.html',
+            n=n, stat='even')
+    else:
+        return render_template('6-number_odd_or_even.html',
+            n=n, stat='odd')
 
 
 if __name__ == "__main__":

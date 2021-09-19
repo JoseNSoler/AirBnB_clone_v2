@@ -65,3 +65,7 @@ class FileStorage:
                     del FileStorage.__objects["{}.{}".format(cp_k[0], obj.id)]
                     break
             self.save()
+
+    def close(self):
+        """ Manual reload for file storage """
+        return self.reload()

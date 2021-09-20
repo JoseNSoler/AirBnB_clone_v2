@@ -11,6 +11,7 @@ from models.place import Place
 from models.review import Review
 from models.city import City
 
+
 class DBStorage:
     """ database mysql object """
     __engine = None
@@ -32,9 +33,9 @@ class DBStorage:
 
         if getenv('HBNB_ENV') == "test":
             Base.metadata.drop_all(bind=self.__engine)
-        
+
         self.__session = sessionmaker(bind=self.__engine)
-    
+
     def all(self, cls=None):
         """ Returns all currect cls objects on db - cls=None returns all """
         queryDict = {}
@@ -62,7 +63,7 @@ class DBStorage:
     def save(self):
         """ Save/Commit current changes maded on sessions """
         return self.__session.commit()
-    
+
     def delete(self, obj=None):
         """ Deletes obj on session """
         if obj:

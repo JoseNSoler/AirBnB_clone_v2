@@ -1,0 +1,122 @@
+/*General keyframes */
+@keyframes item-fade-in {
+    0% { opacity: 0; }
+    100% { flex: 1; opacity: 1; }
+}
+
+/* Filters style */
+.filters {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    height: 70px;
+    width: 100%;
+    position: relative;
+    display: inline-block;
+}
+
+/* locations and amenities */
+.locations,
+.amenities {
+    display: inline-block;
+    height: 100%;
+    width: 25%;
+}
+
+.locations{
+    border-right: #DDDDDD 1px solid;
+    float: left;
+}
+
+/* --------------------------------------------- */
+/* Styles headers 3-4 */
+.filters h3,
+.filters h4{
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+.locations h3,
+.amenities h3{
+    font-weight: 600;
+    padding: 15.5px 0 0 40px;
+
+}
+
+.locations h4,
+.amenities h4{
+    font-weight: 400;
+    font-size: 14px;
+    padding: 2.5px 0 12px 40px;
+}
+
+.filters .popover{
+    background-color: #fafafa;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    display: none;
+    position: absolute; 
+    width: 25%;
+    max-height: 300px;
+    margin-top: 3.5px;
+    margin-left: -1px;
+    z-index: 1;
+    overflow-y: scroll;
+}
+
+
+/*Styles inside popover*/
+.filters .popover h2{
+    font-size: 16px;
+    padding: 11px 0 0 20px;
+    margin-top: 8px;
+    margin-bottom: 0px;
+}
+
+.filters .popover .FirstH2{
+    padding-top: 17px;
+}
+
+.filters .locations:hover .popover,
+.filters .amenities:hover .popover
+{
+    display: block;
+}
+
+/*Lists style*/
+.filters .popover ul{
+    list-style-type: none;
+    margin-top: 5px;
+}
+
+.filters .popover ul li{
+    margin-top: 5px;
+}
+
+.filters .popover .LastUL{
+    margin-bottom: 50px;
+}
+
+.filters .amenities ul{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+
+/* Search button style */
+.filters button {
+    background: #ff5a5f;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    float: right;
+    font-size: 18px;
+    height: 48px;
+    margin: 12px 30px;
+    width: 20%;
+}
+  
+/* Search button hover opacity */
+.filters button:hover {
+    background-color: rgba(255, 90, 95, .9);
+}

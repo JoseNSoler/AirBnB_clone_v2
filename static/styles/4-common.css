@@ -1,0 +1,21 @@
+/* Style main Body */
+body
+{
+	margin: 0;
+	padding: 0;
+	color: #484848;
+	font-size: 14px;
+	font-family: Circular, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Style container */
+.container
+{
+	max-width: 1000px;
+	margin-top: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 30px;
+    margin-block-start: 28px; 
+    writing-mode: horizontal-tb;
+}

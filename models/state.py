@@ -4,7 +4,7 @@ from os import getenv, environ
 import models
 from models.base_model import Base, BaseModel
 from models.city import City
-from sqlalchemy import Table, Column, Integer , String, DateTime
+from sqlalchemy import Table, Column, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 
 

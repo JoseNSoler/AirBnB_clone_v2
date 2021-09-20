@@ -76,4 +76,4 @@ class DBStorage:
 
     def close(self):
         """ Removes current session from current thread """
-        self.__session.remove()
+        self.__session.close()
